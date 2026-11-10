@@ -31,3 +31,26 @@ npm install
 ```
 npm test
 ```
+
+# My approach 
+
+## Logic flow
+
+- If the hand is empty, throw an error: there is no highest card, so there is no valid answer.
+- Go through the cards once:
+  - Add each card's value to the sum, counting aces as 11.
+  - Count the aces.
+  - Track the highest non ace card. Ties between ten-value cards follow the README: ten < jack < queen < king.
+- While the sum is over 21 and an ace is still worth 11, change one ace from 11 to 1 (subtract 10).
+- If an ace is still worth 11, the ace is the highest card.
+- Turn the sum into an outcome: below, blackjack or above.
+- Return the outcome and the highest card.
+
+## Design decisions
+
+- **Strict types.** Cards are a union type, and both tables are typed as `Record`s, so a misspelled card name is a compile error instead of a silent `NaN`. `FaceCard` and `TenValueCard` name the groups the README talks about, so the types read like the rules.
+- **Tie-break mirrors the README.** Cards are compared by value first, and ties between ten-value cards use a separate priority table (ten < jack < queen < king), so the code follows the README's wording directly.
+- **`highestCard` starts at "two", not `undefined`.** This keeps the variable a single type with no extra checks. It's safe because two is the lowest non ace card, the hand is never empty, and a hand of only aces always keeps one ace at 11.
+- **An ace is only the highest card while it's worth 11.** This is what the tests expect, for example `four, four, four, four, four, ace` gives "blackjack four."
+- **An empty hand throws.** There's no highest card to report, so there's no valid answer to return.
+
