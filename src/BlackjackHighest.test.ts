@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { blackjackHighest } from "./BlackjackHighest";
+import { blackjackHighest,compareCards,adjustHandForAces, handOutcome } from "./BlackjackHighest";
 
 describe("BlackjackHighest", () => {
   test("Play cards", () => {
@@ -23,4 +23,21 @@ describe("BlackjackHighest", () => {
       "blackjack ace",
     );
   });
+  test("compareCards", () => {
+    expect(compareCards("ace","two")).toBe("ace");
+    expect(compareCards("two","king")).toBe("king");
+    expect(compareCards("ten","king")).toBe("king");
+    expect(compareCards("queen","jack")).toBe("queen");
+  });
+  test("adjustHandForAces", () => {
+    expect(adjustHandForAces(10,22)).toStrictEqual([9,12]);
+    expect(adjustHandForAces(21,231)).toStrictEqual([0,21]);
+  });
+  test("handOutcome", () => {
+    expect(handOutcome(20)).toBe("below");
+    expect(handOutcome(21)).toBe("blackjack");
+    expect(handOutcome(22)).toBe("above");
+  });
 });
+
+

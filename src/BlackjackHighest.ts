@@ -80,7 +80,7 @@ function isTenValueCard(card: Card): card is TenValueCard {
   return card in TEN_CARD_PRIORITY;
 }
 
-function compareCards(cardA: Card, cardB: Card): Card {
+export function compareCards(cardA: Card, cardB: Card): Card {
   if (CARD_VALUE[cardB] < CARD_VALUE[cardA]) {
     return cardA;
   }
@@ -94,7 +94,7 @@ function compareCards(cardA: Card, cardB: Card): Card {
   return cardB;
 }
 
-function adjustHandForAces(
+export function adjustHandForAces(
   aceCount: number,
   sumOfHand: number,
 ): [aceCount: number, sumOfHand: number] {
@@ -106,7 +106,7 @@ function adjustHandForAces(
   return [aceCount, sumOfHand];
 }
 
-function handOutcome(sumOfHand: number): HandOutcome {
+export function handOutcome(sumOfHand: number): HandOutcome {
   if (sumOfHand < BLACKJACK) return "below";
   if (sumOfHand === BLACKJACK) return "blackjack";
   return "above";
